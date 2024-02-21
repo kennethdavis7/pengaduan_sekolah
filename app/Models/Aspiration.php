@@ -9,6 +9,8 @@ class Aspiration extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     public function student()
     {
         return $this->belongsTo(Student::class);
@@ -18,4 +20,9 @@ class Aspiration extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function status(){
+        return $this->belongsTo(Status::class);
+    }
+
 }

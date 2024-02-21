@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('student_id');
             $table->foreignId('category_id');
-            $table->enum('status', ['Menunggu', 'Proses', 'Selesai']);
+            $table->foreignId('status_id');
             $table->string('image_url');
+            $table->string('location');
             $table->string('description');
-            $table->string('feedback');
+            $table->string('feedback')->nullable();
             $table->timestamps();
         });
     }

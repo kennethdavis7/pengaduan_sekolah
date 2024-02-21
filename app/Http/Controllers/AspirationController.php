@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Aspiration;
+use App\Models\Status;
 
 use Inertia\Inertia;
 
@@ -12,9 +13,17 @@ class AspirationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $aspirations = Aspiration::with('category', 'student')->get();
+        $search_value = $request->search;
+        $aspirations = Aspiration::with('category', 'status')
+        ->join('students', 'students.id', '=', 'aspirations.student_id')
+        ->join('student_classes', 'student_classes.id', '=', 'students.id')
+        ->when($search_value, function($query, $search_value){
+            $query->where('students.nisn', 'like', "%{$search_value}%");
+        })
+        ->paginate(2)->onEachSide(2);
+
         return Inertia::render('Aspirations/Index', [
             'aspirations' => $aspirations
         ]);
@@ -38,9 +47,11 @@ class AspirationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Aspiration $aspiration)
     {
-        //
+        return Inertia::render('Aspirations/Detail', [
+            'aspiration' => $aspiration->load(['student','category', 'status']),
+        ]);
     }
 
     /**
@@ -48,17 +59,26 @@ class AspirationController extends Controller
      */
     public function edit(Aspiration $aspiration)
     {
+        $statuses = Status::all();
         return Inertia::render('Aspirations/Edit', [
-            'aspiration' => $aspiration,
+            'aspiration' => $aspiration->load(['student','category', 'status']),
+            'statuses' => $statuses
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Aspiration $aspiration)
     {
-        //
+        $validatedData = $request->validate([
+            'status_id' => 'required',
+            'feedback' => 'required'
+        ]);
+
+        $aspiration->update($validatedData);
+
+        return redirect()->route('aspirations.index')->with('message', 'Feedback has been succesfully edited!');
     }
 
     /**

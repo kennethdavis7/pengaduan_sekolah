@@ -62,7 +62,7 @@ const selectedDatum = computed(() =>
                         <li
                             :class="[
                                 active
-                                    ? 'bg-green-100 text-green-900'
+                                    ? 'bg-blue-100 text-blue-900'
                                     : 'text-gray-900',
                                 'relative cursor-default select-none py-2 pl-10 pr-4',
                             ]"
@@ -76,7 +76,7 @@ const selectedDatum = computed(() =>
                             >
                             <span
                                 v-if="selected"
-                                class="absolute inset-y-0 left-0 flex items-center pl-3 text-green-600"
+                                class="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-600"
                             >
                                 <CheckIcon class="h-5 w-5" aria-hidden="true" />
                             </span>

@@ -5,16 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Student extends Model
+class Status extends Model
 {
     use HasFactory;
 
-    public function aspiration()
-    {
+    public function aspiration(){
         return $this->hasMany(Aspiration::class);
-    }
-
-    public function student_class(){
-        return $this->belongsTo(StudentClass::class);
     }
 }
