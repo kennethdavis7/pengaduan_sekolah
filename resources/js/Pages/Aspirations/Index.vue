@@ -21,12 +21,7 @@ const props = defineProps(["aspirations"]);
                 <div
                     class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-5"
                 >
-                    <div class="flex justify-between items-center mb-5">
-                        <Search />
-                        <Link :href="route('aspirations.create')">
-                            <PrimaryButton> Create </PrimaryButton>
-                        </Link>
-                    </div>
+                    <Search class="w-56 mb-5" />
                     <div
                         class="relative overflow-x-auto shadow-md sm:rounded-lg"
                     >
@@ -144,7 +139,12 @@ const props = defineProps(["aspirations"]);
 
                                     <td class="px-6 py-4 text-center">
                                         <Link
-                                            href="#"
+                                            :href="
+                                                route(
+                                                    'aspirations.edit',
+                                                    aspiration.id
+                                                )
+                                            "
                                             class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-5"
                                             >Edit</Link
                                         >

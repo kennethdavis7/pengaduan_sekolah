@@ -25,7 +25,6 @@ class AspirationController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Aspirations/Edit');
     }
 
     /**
@@ -47,9 +46,11 @@ class AspirationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Aspiration $aspiration)
     {
-        //
+        return Inertia::render('Aspirations/Edit', [
+            'aspiration' => $aspiration,
+        ]);
     }
 
     /**
