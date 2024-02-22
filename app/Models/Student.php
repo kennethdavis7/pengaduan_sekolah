@@ -9,12 +9,15 @@ class Student extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     public function aspiration()
     {
         return $this->hasMany(Aspiration::class);
     }
 
-    public function student_class(){
+    public function student_class()
+    {
         return $this->belongsTo(StudentClass::class);
     }
 }

@@ -1,5 +1,5 @@
 <script setup>
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import GuestLayout from "@/Layouts/GuestLayout.vue";
 import { Head, Link } from "@inertiajs/vue3";
 import Pagination from "@/Components/Pagination.vue";
 import TextInput from "@/Components/TextInput.vue";
@@ -17,6 +17,8 @@ const props = defineProps({
     category_id: Number,
     class_id: Number,
     date: Date,
+    canLogin: Boolean,
+    canRegister: Boolean,
 });
 
 const categories = computed(() => [
@@ -94,7 +96,12 @@ watch(date, (value) => {
 </script>
 <template>
     <Head title="Aspirations" />
-    <AuthenticatedLayout>
+    <GuestLayout
+        class="shadow-sm"
+        :canLogin="props.canLogin"
+        :canRegister="props.canRegister"
+    >
+        <div class="mt-28"></div>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Aspirations
@@ -278,17 +285,7 @@ watch(date, (value) => {
                                         <Link
                                             :href="
                                                 route(
-                                                    'aspirations.edit',
-                                                    aspiration.id
-                                                )
-                                            "
-                                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-5"
-                                            >Edit</Link
-                                        >
-                                        <Link
-                                            :href="
-                                                route(
-                                                    'aspirations.show',
+                                                    'guestaspiration.show',
                                                     aspiration.id
                                                 )
                                             "
@@ -306,5 +303,5 @@ watch(date, (value) => {
                 </div>
             </div>
         </div>
-    </AuthenticatedLayout>
+    </GuestLayout>
 </template>

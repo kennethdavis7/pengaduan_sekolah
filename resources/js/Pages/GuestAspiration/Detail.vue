@@ -1,13 +1,17 @@
 <script setup>
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import GuestLayout from "@/Layouts/GuestLayout.vue";
 import { Head } from "@inertiajs/vue3";
 
-const props = defineProps(["aspiration"]);
+const props = defineProps(["aspiration", "canLogin", "canRegister"]);
 </script>
 <template>
     <Head :title="'Detail Aspiration ' + props.aspiration.id" />
-    <AuthenticatedLayout>
-        <div class="py-12">
+    <GuestLayout
+        class="shadow-sm"
+        :canLogin="props.canLogin"
+        :canRegister="props.canRegister"
+    >
+        <div class="py-12 mt-28">
             <div class="max-w-7xl bg-white mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm sm:rounded-lg p-5">
                     <div class="flex justify-between items-end">
@@ -62,5 +66,5 @@ const props = defineProps(["aspiration"]);
                 </div>
             </div>
         </div>
-    </AuthenticatedLayout>
+    </GuestLayout>
 </template>

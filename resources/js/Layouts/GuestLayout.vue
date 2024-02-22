@@ -24,14 +24,10 @@ const props = defineProps({
                 class="flex items-center space-x-3 rtl:space-x-reverse"
             >
                 <img
-                    src="https://flowbite.com/docs/images/logo.svg"
-                    class="h-8"
-                    alt="Flowbite Logo"
+                    src="https://www.tzuchi.or.id/uploads/images/logo-1.jpg"
+                    class="h-12"
+                    alt="Tzu Chi"
                 />
-                <span
-                    class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
-                    >Tzu Chi</span
-                >
             </a>
             <button
                 data-collapse-toggle="navbar-default"
@@ -71,39 +67,29 @@ const props = defineProps({
                     </li>
                     <li>
                         <Link
-                            href="/"
+                            :href="route('guestaspirations.index')"
                             class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
                             aria-current="page"
                             >Aspirations</Link
                         >
                     </li>
 
-                    <template v-if="canLogin">
-                        <li v-if="$page.props.auth.user">
+                    <li v-if="!canLogin">
+                        <Link
+                            :href="route('dashboard')"
+                            class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
+                            >Dashboard</Link
+                        >
+                    </li>
+
+                    <template v-else>
+                        <li>
                             <Link
-                                :href="route('dashboard')"
+                                :href="route('login')"
                                 class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
-                                >Dashboard</Link
+                                >Log in</Link
                             >
                         </li>
-
-                        <template v-else>
-                            <li>
-                                <Link
-                                    :href="route('login')"
-                                    class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
-                                    >Log in</Link
-                                >
-                            </li>
-                            <li>
-                                <Link
-                                    v-if="canRegister"
-                                    :href="route('register')"
-                                    class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
-                                    >Register</Link
-                                >
-                            </li>
-                        </template>
                     </template>
                 </ul>
             </div>
@@ -122,36 +108,50 @@ const props = defineProps({
                     class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
                 >
                     <img
-                        src="https://flowbite.com/docs/images/logo.svg"
-                        class="h-8"
-                        alt="Flowbite Logo"
+                        src="https://www.tzuchi.or.id/uploads/images/logo-1.jpg"
+                        class="h-12"
+                        alt="Tzu Chi"
                     />
-                    <span
-                        class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
-                        >Flowbite</span
-                    >
                 </a>
                 <ul
-                    class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400"
+                    class="flex flex-wrap gap-4 items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400"
                 >
                     <li>
-                        <a href="#" class="hover:underline me-4 md:me-6"
-                            >About</a
+                        <Link
+                            href="/"
+                            class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
+                            aria-current="page"
+                            >Home</Link
                         >
                     </li>
                     <li>
-                        <a href="#" class="hover:underline me-4 md:me-6"
-                            >Privacy Policy</a
+                        <Link
+                            :href="route('guestaspirations.index')"
+                            class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
+                            aria-current="page"
+                            >Aspirations</Link
                         >
                     </li>
-                    <li>
-                        <a href="#" class="hover:underline me-4 md:me-6"
-                            >Licensing</a
-                        >
-                    </li>
-                    <li>
-                        <a href="#" class="hover:underline">Contact</a>
-                    </li>
+
+                    <template v-if="canLogin">
+                        <li v-if="!canLogin">
+                            <Link
+                                :href="route('dashboard')"
+                                class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
+                                >Dashboard</Link
+                            >
+                        </li>
+
+                        <template v-else>
+                            <li>
+                                <Link
+                                    :href="route('login')"
+                                    class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
+                                    >Log in</Link
+                                >
+                            </li>
+                        </template>
+                    </template>
                 </ul>
             </div>
             <hr
@@ -159,9 +159,9 @@ const props = defineProps({
             />
             <span
                 class="block text-sm text-gray-500 sm:text-center dark:text-gray-400"
-                >© 2023
+                >© 2024
                 <a href="https://flowbite.com/" class="hover:underline"
-                    >Flowbite™</a
+                    >Kenneth Davis™</a
                 >. All Rights Reserved.</span
             >
         </div>

@@ -4,7 +4,7 @@ import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
-import { Head, Link, useForm } from "@inertiajs/vue3";
+import { Head, useForm } from "@inertiajs/vue3";
 
 defineProps({
     status: {
@@ -35,6 +35,7 @@ const submit = () => {
             {{ status }}
         </div>
 
+        <img src="https://www.tzuchi.or.id/uploads/images/logo-1.jpg" alt="" />
         <form @submit.prevent="submit">
             <div>
                 <InputLabel for="email" value="Email" />
@@ -75,15 +76,8 @@ const submit = () => {
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <Link
-                    :href="route('register')"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                    Haven't registered yet?
-                </Link>
-
                 <PrimaryButton
-                    class="ms-4"
+                    class="ms-4 px-4 py-2"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >

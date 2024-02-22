@@ -49,7 +49,10 @@ const submit = () => {
                                 popupClass="w-56"
                                 buttonClass="py-3"
                             />
-                            <InputError class="mt-2" />
+                            <InputError
+                                class="mt-2"
+                                :message="form.errors.status_id"
+                            />
                         </div>
 
                         <div class="mb-7">
@@ -65,10 +68,14 @@ const submit = () => {
                                 theme="snow"
                             />
 
-                            <InputError class="mt-2" />
+                            <InputError
+                                class="mt-2"
+                                :message="form.errors.feedback"
+                            />
                         </div>
                         <div class="mb-4">
                             <PrimaryButton
+                                class="px-6 py-3"
                                 :class="{ 'opacity-25': form.processing }"
                                 :disabled="form.processing"
                             >

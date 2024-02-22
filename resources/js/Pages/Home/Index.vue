@@ -1,22 +1,43 @@
 <script setup>
-import { Head, Link } from "@inertiajs/vue3";
+import { Head, Link, useForm } from "@inertiajs/vue3";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
+import TextInput from "@/Components/TextInput.vue";
+import InputError from "@/Components/InputError.vue";
+import InputLabel from "@/Components/InputLabel.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import Select from "@/Components/Select.vue";
+import { QuillEditor } from "@vueup/vue-quill";
+import Flash from "@/Components/Flash.vue";
+import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
-defineProps({
-    canLogin: {
-        type: Boolean,
-    },
-    canRegister: {
-        type: Boolean,
-    },
+const props = defineProps({
+    canLogin: Boolean,
+    canRegister: Boolean,
+    classes: Object,
+    categories: Object,
+    flash: Object,
 });
+
+const form = useForm({
+    name: "",
+    nisn: "",
+    class_id: props.classes[0].id,
+    location: "",
+    description: "",
+    category_id: props.categories[0].id,
+    image: null,
+});
+
+const submit = () => {
+    form.post(route("aspirations.store"));
+};
 </script>
 
 <template>
     <GuestLayout
         class="shadow-sm"
-        :canLogin="canLogin"
-        :canRegister="canRegister"
+        :canLogin="props.canLogin"
+        :canRegister="props.canRegister"
     >
         <div class="flex justify-between w-full p-36 mb-16">
             <div class="heading mr-20">
@@ -27,14 +48,13 @@ defineProps({
                     <span class="text-blue-600 dark:text-blue-500"
                         >the world's #1</span
                     >
-                    CRM.
+                    School
                 </h1>
                 <p
                     class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400"
                 >
-                    Here at Flowbite we focus on markets where technology,
-                    innovation, and capital can unlock long-term value and drive
-                    economic growth.
+                    See the aspirations from students expressed passionately,
+                    eloquently, and with fervor.
                 </p>
             </div>
 
@@ -46,6 +66,11 @@ defineProps({
         </div>
 
         <div class="form-aspirations mb-16">
+            <Flash
+                :message="props.flash.message"
+                v-if="props.flash.message"
+                class="w-2/4 mx-auto mb-4"
+            />
             <h2
                 class="text-4xl font-extrabold text-center mb-5 dark:text-white"
             >
@@ -57,56 +82,124 @@ defineProps({
                 class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700 w-2/4 mx-auto"
             />
 
-            <form class="w-2/4 mx-auto">
+            <form @submit.prevent="submit" class="w-2/4 mx-auto">
                 <div class="mb-5">
-                    <label
-                        for="email"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                        >Your email</label
-                    >
-                    <input
-                        type="email"
-                        id="email"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="name@flowbite.com"
+                    <InputLabel for="name" value="Name" />
+
+                    <TextInput
+                        id="name"
+                        type="name"
+                        class="mt-1 block border border-gray-200 w-full px-2 py-2"
+                        v-model="form.name"
                         required
+                        autofocus
                     />
+
+                    <InputError class="mt-2" :message="form.errors.name" />
                 </div>
                 <div class="mb-5">
-                    <label
-                        for="password"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                        >Your password</label
-                    >
-                    <input
-                        type="password"
-                        id="password"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    <InputLabel for="nisn" value="NISN" />
+
+                    <TextInput
+                        id="nisn"
+                        type="nisn"
+                        class="mt-1 block border border-gray-200 w-full px-2 py-2"
+                        v-model="form.nisn"
                         required
+                        autofocus
                     />
+
+                    <InputError class="mt-2" :message="form.errors.nisn" />
                 </div>
-                <div class="flex items-start mb-5">
-                    <div class="flex items-center h-5">
-                        <input
-                            id="remember"
-                            type="checkbox"
-                            value=""
-                            class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-                            required
+                <div class="mb-5">
+                    <InputLabel for="location" value="Location" />
+
+                    <TextInput
+                        id="location"
+                        type="location"
+                        class="mt-1 block border border-gray-200 w-full px-2 py-2"
+                        v-model="form.location"
+                        required
+                        autofocus
+                    />
+
+                    <InputError class="mt-2" :message="form.errors.location" />
+                </div>
+                <div class="mb-5 flex gap-4">
+                    <div class="class-input w-2/4">
+                        <InputLabel for="class" value="Class" />
+
+                        <Select
+                            id="class_id"
+                            v-model="form.class_id"
+                            :data="
+                                classes.map((el) => {
+                                    return {
+                                        id: el.id,
+                                        name: el.class,
+                                    };
+                                })
+                            "
+                            popupClass="w-full"
+                            buttonClass="py-3 w-full"
+                        />
+
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.class_id"
                         />
                     </div>
-                    <label
-                        for="remember"
-                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >Remember me</label
-                    >
+                    <div class="category-input w-2/4">
+                        <InputLabel for="category" value="Category" />
+
+                        <Select
+                            id="category_id"
+                            v-model="form.category_id"
+                            :data="props.categories"
+                            popupClass="w-full"
+                            buttonClass="py-3 w-full"
+                        />
+
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.category_id"
+                        />
+                    </div>
                 </div>
-                <button
-                    type="submit"
-                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+
+                <div class="mb-5">
+                    <InputLabel for="image" value="Image" />
+                    <input
+                        class="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary"
+                        type="file"
+                        @input="form.image = $event.target.files[0]"
+                        id="image"
+                    />
+                </div>
+
+                <div class="mb-7">
+                    <InputLabel
+                        for="description"
+                        class="mb-2"
+                        value="Description"
+                    />
+
+                    <QuillEditor
+                        v-model:content="form.description"
+                        contentType="html"
+                        theme="snow"
+                    />
+
+                    <InputError class="mt-2" />
+                </div>
+
+                <PrimaryButton
+                    class="px-6 py-3"
+                    :class="{ 'opacity-25': form.processing }"
+                    :disabled="form.processing"
                 >
-                    Submit
-                </button>
+                    Send
+                </PrimaryButton>
             </form>
         </div>
     </GuestLayout>

@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use App\Models\Category;
+use App\Models\StudentClass;
 
 class HomeController extends Controller
 {
@@ -18,6 +22,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $categories = Category::all();
+        $classes = StudentClass::all();
+        return Inertia::render('Home/Index', [
+            'canLogin' => Route::has('login') && auth()->user() === null,
+            'categories' => $categories,
+            'classes' => $classes
+        ]);
     }
 }

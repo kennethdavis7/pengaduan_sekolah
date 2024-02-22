@@ -21,8 +21,10 @@ const showingNavigationDropdown = ref(false);
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('dashboard')">
-                                    <ApplicationLogo
-                                        class="block h-9 w-auto fill-current text-gray-800"
+                                    <img
+                                        src="https://www.tzuchi.or.id/uploads/images/logo-1.jpg"
+                                        alt=""
+                                        class="w-16"
                                     />
                                 </Link>
                             </div>
@@ -48,6 +50,18 @@ const showingNavigationDropdown = ref(false);
                                     "
                                 >
                                     Aspirations
+                                </NavLink>
+                            </div>
+                            <div
+                                class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
+                            >
+                                <NavLink
+                                    :href="route('categories.index')"
+                                    :active="
+                                        route().current('categories.index')
+                                    "
+                                >
+                                    Categories
                                 </NavLink>
                             </div>
                         </div>
